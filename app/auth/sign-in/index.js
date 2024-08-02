@@ -1,33 +1,68 @@
-import React from 'react'
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import { useNavigation, useRouter } from 'expo-router'
 import { useEffect } from 'react';
 import { Colors } from './../../../constants/Colors.ts'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './../../../configs/FirebaseConfig.js';
 
 export default function SignIn(){
     const navigation=useNavigation();
     const router=useRouter();
+
+    const [email,setEmail]=useState();
+    const [password,setPassword]=useState();
 
     useEffect(()=>{
         navigation.setOptions({
             headerShown:false
         })
     },[])
+
+    const onSignIn=()=>{
+
+        if(!email&&!password){
+            ToastAndroid.show("Please enter Email and Password", ToastAndroid.LONG);
+            return;
+        }
+        signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+    // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+    // ...
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage,errorCode);
+
+        if(errorCode=='auth/invalid-credential'){
+            ToastAndroid.show("Invalid credentials",ToastAndroid.LONG);
+        }
+    });
+    }
     return(
         <View style={{
             padding:25,
-            paddingTop:80,
+            paddingTop:50,
             height:'100%',
             backgroundColor:Colors.White
         }}>
+            <TouchableOpacity onPress={()=>router.back()}>
+                <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+
             <Text style={{
-                fontFamily:'Bold',
-                fontSize:30,
+                fontFamily:'ExtraBold',
+                fontSize:40,
+                marginTop:30,
             }}>Let's Sign You In</Text>
 
             <Text style={{
                 fontFamily:'Bold',
-                fontSize:30,
+                fontSize:35,
                 color:Colors.Gray,
                 marginTop:20,
             }}>Welcome Back</Text>
@@ -40,6 +75,7 @@ export default function SignIn(){
                 }}>Email</Text>
                 <TextInput
                 style={styles.input} 
+                onChangeText={(value)=>setEmail(value)}
                     placeholder='Enter your Email'/>
             </View>
 
@@ -52,10 +88,11 @@ export default function SignIn(){
                 <TextInput
                 secureTextEntry={true}
                 style={styles.input} 
+                onChangeText={(value)=>setPassword(value)}
                     placeholder='Enter your Password'/>
             </View>
 
-            <View style={{
+            <TouchableOpacity onPress={onSignIn} style={{
                 padding:20,
                 backgroundColor:Colors.Primary,
                 borderRadius:15,
@@ -65,7 +102,7 @@ export default function SignIn(){
                     color:Colors.White,
                     textAlign:'center'
                 }}>Sign In</Text>
-            </View>
+            </TouchableOpacity>
 
             <TouchableOpacity
                 onPress={()=>router.replace('auth/sign-up')}
