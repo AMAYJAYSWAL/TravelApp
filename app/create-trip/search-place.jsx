@@ -1,16 +1,19 @@
-import { useNavigation } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import { useEffect,useContext } from 'react';
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Colors } from '../../constants/Colors';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {CreateTripContext} from './../../context/CreateTripContext'
+import MapView, { Marker } from 'react-native-maps';
 
 
 export default function SearchPlace(){
 
     const navigation=useNavigation();
     const {tripData, setTripData}=useContext(CreateTripContext)
+    const router=useRouter();
+
     useEffect(()=>{
         navigation.setOptions({
             headerShown:true,
@@ -45,7 +48,10 @@ export default function SearchPlace(){
                 photoRef:details?.photos[0]?.photo_reference,
                 url:details?.url
             }
-        })
+        });
+
+        router.push('/create-trip/select-traveler')
+
         }}
         query={{
         key: process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY,
@@ -60,6 +66,7 @@ export default function SearchPlace(){
             }
         }}
     />
+    
 
       </View>
     )
