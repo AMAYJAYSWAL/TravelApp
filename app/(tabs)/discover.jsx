@@ -7,4 +7,4 @@ export default function discover(){
         <Text> discover </Text>
       </View>
     )
-  }
+}
