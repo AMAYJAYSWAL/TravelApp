@@ -14,7 +14,7 @@ export default function Index() {
       }}
     >
       {user?
-        <Redirect href={'./mytrip'}/>:
+        <Redirect href={'/mytrip'}/>:
         <Login/>
       }
 

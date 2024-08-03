@@ -1,11 +1,10 @@
 import React from 'react'
+import { Text, View } from 'react-native'
 
-function discover() {
-  return (
-    <div>
-      
-    </div>
-  )
-}
-
-export default discover
+export default function discover(){
+    return (
+      <View>
+        <Text> discover </Text>
+      </View>
+    )
+  }
