@@ -1,6 +1,6 @@
 import {View, Text, FlatList,TouchableOpacity} from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
-import { useNavigation } from 'expo-router'
+import { useNavigation, Link } from 'expo-router'
 import { Colors } from '../../constants/Colors';
 import {SelectTravelerList} from '../../constants/Options'
 import OptionCard from './../../components/CreateTrip/OptionCard'
@@ -25,9 +25,13 @@ export default function SelectTraveler(){
 
     useEffect(()=>{
         setTripData({...tripData,
-            travelerCount:SelectTraveler
+            traveler:SelectTraveler
     })
-    },[SelectTraveler])
+    },[SelectTraveler]);
+
+    useEffect(()=>{
+        console.log(tripData)
+    },[tripData])
     return(
         <View style={{
             padding:25,
@@ -58,11 +62,35 @@ export default function SelectTraveler(){
                 style={{
                     marginVertical:10,
                 }}>
-                    <OptionCard option={item} SelectTraveler={SelectTraveler}/>
+                    <OptionCard option={item} selectedOption={SelectTraveler}/>
                 </TouchableOpacity>
             )}/>
                 
             </View>
+            
+            
+            <TouchableOpacity
+            style={{
+                padding:25,
+                backgroundColor:Colors.Primary,
+                borderRadius:15,
+                marginTop:100
+            }}>
+                <Link href={'/create-trip/select-dates'}
+                style={{
+                    width:'100%',
+                    textAlign:'center'
+                }}>
+                <Text style={{
+                    textAlign:'center',
+                    color:Colors.White,
+                    fontFamily:'Medium',
+                    fontSize:20
+
+                }}>Continue</Text>
+
+                </Link>
+            </TouchableOpacity>
         </View>
     )
 }

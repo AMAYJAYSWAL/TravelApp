@@ -19,3 +19,21 @@ export const SelectTravelerList=[
     },
     
 ];
+
+export const SelectBudgetOptions=[
+    {
+        id:1,
+        title:'Cheap',
+        desc:'Strictly budget friendly',
+    },
+    {
+        id:2,
+        title:'Moderate',
+        desc:'Flexible till some extent',
+    },
+    {
+        id:3,
+        title:'Luxury',
+        desc:'For the best experience'
+    }
+];
