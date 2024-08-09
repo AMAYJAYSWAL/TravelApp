@@ -1,4 +1,4 @@
-import { useNavigation } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import React, { useContext, useEffect } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import { Colors } from '../../constants/Colors';
@@ -15,6 +15,7 @@ export default function ReviewTrip(){
 
     const navigation=useNavigation();
     const {tripData,setTripData}=useContext(CreateTripContext);
+    const router = useRouter();
 
     useEffect(()=>{
         navigation.setOptions({
@@ -131,7 +132,7 @@ export default function ReviewTrip(){
         </View>
 
         <TouchableOpacity
-            onPress={()=>onClickContinue()}
+            onPress={()=>router.replace('/create-trip/generate-trip')}
             style={{
                 padding:25,
                 backgroundColor:Colors.Primary,
